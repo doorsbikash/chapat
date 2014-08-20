@@ -37,14 +37,15 @@ class Purchase_model extends MY_Model
 
     public function getPurchaseMasters($where=NULL,$order_by=NULL,$limit=array('limit'=>NULL,'offset'=>''))
     {
-    
+
         $fields='p.*,sup.supplier_name';
+        $order_by = "";
+        $order_by="p.purchase_date";
          
         $this->db->select($fields);
       //  $this->db->from($this->_TABLES['PURCHASE'].' p');
         $this->db->from($this->_TABLES['PURCHASE']. ' p');
         $this->db->join($this->_TABLES['SUPPPLIER'].' sup','sup.id=p.supplier_id','left');
-        $order_by="invoice_no";
         (! is_null($where))?$this->db->where($where):NULL;
         (! is_null($order_by))?$this->db->order_by($order_by):NULL;
 

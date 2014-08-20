@@ -81,8 +81,8 @@
 						<tr>
 							<td><label><?=lang('memo_type')?></label>:</td>
 							<td><input type="text" name="search[memo_type]" id="search_memo_type"  class="easyui-validatebox"/></td>
-							<td><label><?=lang('purchase_datetime')?></label>:</td>
-							<td><input type="text" name="date[created_datetime][from]" id="search_created_datetime_from"  class="easyui-datebox"/> ~ <input type="text" name="date[created_datetime][to]" id="search_created_datetime_to"  class="easyui-datebox"/></td>
+							<td><label><?=lang('purchase_date')?></label>:</td>
+							<td><input type="text" name="date[purchase_date][from]" id="search_purchase_date_from"  class="easyui-datebox"/> ~ <input type="text" name="date[purchase_date][to]" id="search_purchase_date_to"  class="easyui-datebox"/></td>
 							<td><label><?=lang('pack')?></label>:</td>
 							<td><input type="text" name="search[pack]" id="search_pack"  class="easyui-validatebox"/></td>
 
@@ -105,12 +105,12 @@
 
 				<thead>
 					<tr>
-						<th data-options="field:'supplier_id',width:150,editor:'text'">Suplier</th>
+						<th data-options="field:'supplier_name',width:150,editor:'text'">Suplier</th>
 						<th data-options="field:'purchase_master_id',width:80,editor:'text'" >Purchase Id</th>
 						<th data-options="field:'invoice_no',width:100,editor:'text'">Invoice No</th>
 						<th data-options="field:'net_total',width:100,align:'right',editor:'text'" >Total</th>
 						<th data-options="field:'memo_type',align:'right',width:100,editor:'text'" >Memo Type</th>
-						<th data-options="field:'created_datetime',align:'right',width:120,editor:'text'" >Purchase Date</th>
+						<th data-options="field:'purchase_date',align:'right',width:120,editor:'text'" >Purchase Date</th>
 						<th field="action" formatter="getActions"><?php  echo lang('action')?></th>
 					</tr>
 				</thead>
@@ -121,10 +121,8 @@
 <!-- ends Main purchase view datagrid ends  -->
 <!-- tool bar for purchase datagrid -->
 	<div id="toolbar" style="padding:5px;height:auto">
-		<p>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false" onclick="create()" title="<?php  echo lang('create_purchase')?>"><?php  echo lang('create')?></a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="false" onclick="removeSelected()"  title="<?php  echo lang('delete_purchase')?>"><?php  echo lang('remove_selected')?></a>
-		</p>
+		
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false" onclick="create()" title="<?php  echo lang('create_purchase')?>"><?php  echo lang('create_purchase')?></a>
 
 	</div> 
 <!--ends Toolbar for data ends -->
@@ -141,8 +139,8 @@
 						<td width="34%" ><label><?=lang('invoice_no')?>:</label>
 							<input name="invoice_no" id="invoice_no" class="easyui-validatebox" required="true">
 					<tr>
-						<td width="34%" ><label><?=lang('purchase_datetime')?>:</label>
-						<input name="purchase_datetime" id="purchase_datetime" class="easyui-datebox"></td>
+						<td width="34%" ><label><?=lang('purchase_date')?>:</label>
+						<input name="purchase_date" id="purchase_date" class="easyui-datebox"></td>
 						<td width="34%" ><label><?=lang('memo_type')?>:</label>
 						<input name="memo_type" id="memo_type" ></td>
 					</tr>
@@ -156,7 +154,7 @@
 </form>
 </div>	
 	<div id="dlg-purchaseDetail" class="easyui-dialog"  style="width:730px;min-height:180px;height:auto;padding:0px"
-		data-options="closed:true,collapsible:true,modal:true">
+		data-options="closed:true,onClose:function(){$('#purchaseDatagrid').datagrid('reload');},collapsible:true,modal:true">
 		<table id="dg" title="Add/Edit Purchse" style="width:auto;height:250px"
 		toolbar="#toolbar_dlg" pagination="true" idField="purchase_detail_id"
 		rownumbers="true" fitColumns="true" singleSelect="true">
@@ -164,7 +162,7 @@
 			<tr>
 				<th field="item_code" width="50" editor="{type:'validatebox',options:{required:true}}">CODE</th>
 				<th field="item_description" width="200" editor="{type:'validatebox',options:{required:true}}">ITEM DESCRIPTION</th>
-				<th field="pack" width="50" editor="text">PACK</th>
+				<th field="pack_description" width="50" editor="text">PACK</th>
 				<th field="batch" width="50" editor="text">BATCH</th>
 				<th field="expiry_date" width="50" editor="text">EXP.DATE</th>
 				<th field="quantity" width="50" editor="text">QTY</th>
@@ -232,32 +230,42 @@
 	{
 		var row = $('#purchaseDatagrid').datagrid('getRows')[index];
 		if (row){
-			$('#form-purchase').form('clear');
-			$('#dlg-form').window('close');	
-			purchaseDetaildg(row);		}
-			else
+			//$('#form-purchase').form('clear');
+			$('#dlg-form').window('open').window('setTitle','<?php  echo lang('create_purchase')?>');
+			$('#form-purchase').form('load',row);
+
+			//purchaseDetaildg(row);	
+		}
+		else
 		{
 			$.messager.alert('Error','<?php  echo lang('edit_selection_error')?>');				
 		}		
 	}
 	
-		function save()
-		{
-			$('#form-purchase').form('submit',{
-				url: '<?php  echo site_url('purchase/admin/purchase/save')?>',
-				onSubmit: function(){
-					return $(this).form('validate');
-				},
-				success: function(result){
-					var result = eval('('+result+')');
-					var purchase_master_id = result.data;
-					if (result.success && purchase_master_id)
-					{
-						
-						$('#form-purchase').form('clear');
-						$('#dlg-form').window('close');	
-						purchaseDetaildg(purchase_master_id);
-						
+	function save()
+	{
+		$('#form-purchase').form('submit',{
+			url: '<?php  echo site_url('purchase/admin/purchase/save')?>',
+			onSubmit: function(){
+				return $(this).form('validate');
+			},
+			success: function(result){
+				var result = eval('('+result+')');
+				var purchase_master_id = result.data;
+				if (result.success && purchase_master_id)
+				{
+
+					$('#form-purchase').form('clear');
+					$('#dlg-form').window('close');	
+					purchaseDetaildg(purchase_master_id);
+					debugger;
+						 /* $('#dlg-purchaseDetail').live('pagehide',function(event) {
+						  	debugger;
+					       $('#purchaseDatagrid').datagrid('reload');
+					        
+					      });
+		*/
+
 						//showAddPurchaseGrid();
 						//$.messager.show({title: '<?php  echo lang('success')?>',msg: result.msg});
 						//$('#purchase-table').datagrid('reload');	// reload the user data
@@ -268,62 +276,27 @@
 					} //if close
 				}//success close
 			});				
-		}
-		function purchaseDetaildg(pmid){
-			if(pmid!=''){
+	}
+
+	function purchaseDetaildg(pmid){
+		if(pmid!=''){
 				//<?=site_url('purchase/admin/purchase/getPurchaseDetailjson')?>?purchase_master_id='+row.purchase_master_id;
 				// var getUrl = "<?=site_url('purchase/admin/purchase/getPurchaseDetailjson')?>/?purchase_master_id ="+id;
 				// var saveUrl = "<?=site_url('purchase/admin/purchase/savePurchaseDetail')?>/?purchase_master_id ="+id;
-			
-			$('#dlg-purchaseDetail').dialog('open').dialog('setTitle','Add Purchase description');
-			$(function(){
-				$('#dlg-purchaseDetail #dg').edatagrid({
-					url: "<?=site_url('purchase/admin/purchase/getPurchaseDetailjson')?>/?purchase_master_id="+pmid,
-					saveUrl: "<?=site_url('purchase/admin/purchase/savePurchaseDetail')?>/?purchase_master_id="+pmid ,
-					updateUrl: "<?php echo site_url('purchase/admin/purchase/updatePurchaseDetail')?>/?purchase_master_id="+pmid,
-					destroyUrl: "<?php echo site_url('purchase/admin/purchase/deletePurchaseDetail')?>/?purchase_master_id="+pmid
+
+				$('#dlg-purchaseDetail').dialog('open').dialog('setTitle','Add Purchase description');
+				$(function(){
+					$('#dlg-purchaseDetail #dg').edatagrid({
+						url: "<?=site_url('purchase/admin/purchase/getPurchaseDetailjson')?>/?purchase_master_id="+pmid,
+						saveUrl: "<?=site_url('purchase/admin/purchase/savePurchaseDetail')?>/?purchase_master_id="+pmid ,
+						updateUrl: "<?php echo site_url('purchase/admin/purchase/updatePurchaseDetail')?>/?purchase_master_id="+pmid,
+						destroyUrl: "<?php echo site_url('purchase/admin/purchase/deletePurchaseDetail')?>/?purchase_master_id="+pmid
+					});
 				});
-			});
-		}
+			}
 
 		}
-		//http://www.jeasyui.com/forum/index.php?topic=566.0;wap2
-		function tagData(){
-		 var row = $('#dg').datagrid('getSelected');
-		  if (row){
-		   $('#dlgtag').dialog('open').dialog('setTitle','Set Supplier');
-		    $(function(){
-		$('#dlgt').edatagrid({	
-		  onEdit:function(index,row){
-		   var ed = $(this).edatagrid('getEditor',{
-		index:index,
-		field:'name_supplier'
-		});
-		$(ed.target).combobox('reload','supplier.php?id='+row.id_part_cat);
-		},
-		url: 'get_data1.php?id='+row.idfbrequestpo,
-		updateUrl: 'update_ing.php?idx='+row.idfbrequestpo,
-		columns:[[
-		{field:'name_part',title:'name of part',width:100,
-		editor:{type:'text'}},
-		{field:'name_supplier',title:'supplier',width:100,
-		editor:{type:'combobox',options:{
-		valueField:'id_supplier',textField:'name_supplier',required:true}}
-		}	
-		]],
-		});
-		    });}
-		}	
-
-		 
-		 /*$(function(){
-			$('#dlg-purchaseDetail #dg').edatagrid({
-				url: '<?php site_url("purchase/admin/purchase/json ") ?>',
-				saveUrl: '<?php site_url("purchase/admin/purchase/json ") ?>+',
-				updateUrl: 'update_user.php',
-				destroyUrl: 'destroy_user.php'
-			});
-		});*/
+		
 </script>
 
 

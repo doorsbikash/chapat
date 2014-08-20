@@ -32,7 +32,6 @@ class Purchase extends Admin_Controller
 		$this->_get_search_param();	
 
 		$rows=$this->purchase_model->getPurchaseMasters(array('p.delete_flag' =>'0'))->result_array();
-		
 		echo json_encode(array('total'=>$total,'rows'=>$rows));
 	}
 
@@ -142,6 +141,7 @@ class Purchase extends Admin_Controller
     	$data=array();
     	$data['purchase_master_id'] = $this->input->post('purchase_master_id');
     	$data['invoice_no'] = $this->input->post('invoice_no');
+    	$data['purchase_date'] = $this->input->post('purchase_date');
     	$data['total'] = $this->input->post('total');
     	$data['less_discount'] = $this->input->post('less_discount');
     	$data['net_total'] = $this->input->post('net_total');
