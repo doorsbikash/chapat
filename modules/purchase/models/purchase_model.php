@@ -9,6 +9,7 @@ class Purchase_model extends MY_Model
         $this->prefixmaster='master_';
         $this->_TABLES=array('PURCHASE'=>$this->prefix.'purchase',
                             'SUPPPLIER'=>$this->prefixmaster.'supplier',
+                            'PACK'=>$this->prefixmaster.'pack',
                             'PURCHASE_DETAIL'=>$this->prefix.'purchase_detail');
 		    
     }
@@ -40,20 +41,23 @@ class Purchase_model extends MY_Model
 
         $fields='p.*,sup.supplier_name';
         $order_by = "";
-        $order_by="p.purchase_date";
+        $order_by="p.purchase_date desc";
+
          
         $this->db->select($fields);
       //  $this->db->from($this->_TABLES['PURCHASE'].' p');
         $this->db->from($this->_TABLES['PURCHASE']. ' p');
         $this->db->join($this->_TABLES['SUPPPLIER'].' sup','sup.id=p.supplier_id','left');
+        //
         (! is_null($where))?$this->db->where($where):NULL;
         (! is_null($order_by))?$this->db->order_by($order_by):NULL;
-
+            
         if( ! is_null($limit['limit']))
         {
             $this->db->limit($limit['limit'],( isset($limit['offset'])?$limit['offset']:''));
         }
-        return $this->db->get();      
+        return $this->db->get(); 
+   //      echo $this->db->last_query();     
     }
     
 
@@ -61,7 +65,7 @@ class Purchase_model extends MY_Model
     {   
         $this->db->select('*');
         $this->db->from($this->_TABLES['PURCHASE_DETAIL'].' pd');
-        $this->db->where('pd.purchase_master_id',$purchase_master_id);
+      //  // $this->db->where('pd.purchase_master_id',$purchase_master_id);
         $result = $this->db->get();
         return $result;
     }

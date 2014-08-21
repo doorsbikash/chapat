@@ -17,7 +17,8 @@
 						columns:[[
 						{field:'item_code',title:'Code',width:90},
 						{field:'item_description',title:'Item Description',width:200,align:'right'},
-						{field:'pack',title:'Pack',width:80,align:'right',
+						{field:'pack_description',title:'Pack',width:200,align:'right'},
+						/*{field:'pack',title:'Pack',width:80,align:'right',
 							formatter: function(value,row,index){
 								return row.pack_description;
 							},
@@ -29,7 +30,7 @@
 			                        url:'<?=site_url("purchase/admin/pack/json") ?>'
 								}
 							}
-						},		
+						},	*/	
 						{field:'batch',title:'Batch',width:100,align:'right'},
 						{field:'expiry_date',title:'Exp.Date',width:100,align:'right'},
 						{field:'quantity',title:'QTY',width:80,align:'right'},
@@ -80,11 +81,18 @@
 
 						<tr>
 							<td><label><?=lang('memo_type')?></label>:</td>
-							<td><input type="text" name="search[memo_type]" id="search_memo_type"  class="easyui-validatebox"/></td>
+							<td><select id="search_memo_type" class="easyui-combobox" name="search[memo_type]">
+									    <option value="cash">Cash</option>
+									    <option value ="cheque">Cheque</option>
+									  
+								</select>
+							</td>
 							<td><label><?=lang('purchase_date')?></label>:</td>
 							<td><input type="text" name="date[purchase_date][from]" id="search_purchase_date_from"  class="easyui-datebox"/> ~ <input type="text" name="date[purchase_date][to]" id="search_purchase_date_to"  class="easyui-datebox"/></td>
 							<td><label><?=lang('pack')?></label>:</td>
-							<td><input type="text" name="search[pack]" id="search_pack"  class="easyui-validatebox"/></td>
+							<td><input id="search_pack" class="easyui-combobox" name="search[pack]"
+							    data-options="valueField:'id',textField:'pack_description',url:'<?=site_url("purchase/admin/purchase/pack_json");?>'">
+						    </td>
 
 						</tr>
 						<tr>
@@ -101,7 +109,7 @@
 			</div>
 			<br/>
 
-			<table id="purchaseDatagrid" class="easyui-datagrid" style="width:auto;height:250px" url="<?=site_url('purchase/admin/purchase/json')?>" title="Purchase"data-options="iconCls: 'icon-edit',singleSelect: true,method:'get',toolbar:'#toolbar'">
+			<table id="purchaseDatagrid" class="easyui-datagrid" style="width:auto;height:auto;" url="<?=site_url('purchase/admin/purchase/json')?>" title="Purchase"data-options="iconCls: 'icon-edit',pagination:true,singleSelect: true,method:'get',toolbar:'#toolbar'">
 
 				<thead>
 					<tr>
@@ -123,26 +131,37 @@
 	<div id="toolbar" style="padding:5px;height:auto">
 		
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false" onclick="create()" title="<?php  echo lang('create_purchase')?>"><?php  echo lang('create_purchase')?></a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" plain="false" onclick="reload()" title="Reload">Reload</a>
 
 	</div> 
 <!--ends Toolbar for data ends -->
 <!-- create and edit purchase form with datagrid-->
-<div id="dlg-form" class="easyui-dialog" style="width:500px;min-height:180px;height:auto;padding:10px 20px"
+<div id="dlg-form" class="easyui-dialog" style="width:600px;min-height:180px;height:auto;padding:10px 20px"
 		data-options="closed:true,collapsible:true,buttons:'#dlg-from-buttons',modal:true">
 	<form id="form-purchase" method="post" >
 	<table>
 					<tr>
 						<td width="34%" ><label><?=lang('supplier_id')?>:</label>
-							<input name="supplier_id" id="supplier_id" class="easyui-validatebox">
-						</td>
+						<input id="supplier_id" class="easyui-combobox" style="width:225px" name="supplier_id"
+    						data-options="valueField:'id',
+    									textField:'supplier_name',
+    									url:'<?=site_url("purchase/admin/purchase/supplier_json" );?>'">
+						</td><a href="<?=site_url('supplier/admin/supplier' )?>">Add Supplier</a>
 						
 						<td width="34%" ><label><?=lang('invoice_no')?>:</label>
 							<input name="invoice_no" id="invoice_no" class="easyui-validatebox" required="true">
+						</td>
+						</tr>
 					<tr>
 						<td width="34%" ><label><?=lang('purchase_date')?>:</label>
 						<input name="purchase_date" id="purchase_date" class="easyui-datebox"></td>
 						<td width="34%" ><label><?=lang('memo_type')?>:</label>
-						<input name="memo_type" id="memo_type" ></td>
+						<select id="memo_type" class="easyui-combobox" name="memo_type">
+									    <option value="cash">Cash</option>
+									    <option value ="cheque">Cheque</option>
+									  
+								</select>
+						
 					</tr>
 				</table>
 				<input type="hidden" name="purchase_master_id" id="purchase_master_id"/>
@@ -155,14 +174,29 @@
 </div>	
 	<div id="dlg-purchaseDetail" class="easyui-dialog"  style="width:730px;min-height:180px;height:auto;padding:0px"
 		data-options="closed:true,onClose:function(){$('#purchaseDatagrid').datagrid('reload');},collapsible:true,modal:true">
-		<table id="dg" title="Add/Edit Purchse" style="width:auto;height:250px"
+		<table id="detail-edg" title="Add/Edit Purchase" style="width:auto;min-height:250px"
 		toolbar="#toolbar_dlg" pagination="true" idField="purchase_detail_id"
 		rownumbers="true" fitColumns="true" singleSelect="true">
 		<thead>
 			<tr>
 				<th field="item_code" width="50" editor="{type:'validatebox',options:{required:true}}">CODE</th>
 				<th field="item_description" width="200" editor="{type:'validatebox',options:{required:true}}">ITEM DESCRIPTION</th>
-				<th field="pack_description" width="50" editor="text">PACK</th>
+				<th field="pack" width="50" 
+				editor="{
+	               	type:'combobox',
+	               	options:{
+		               	url:'<?=site_url("purchase/admin/purchase/pack_json" );?>',
+		               	valueField:'id',
+		               	textField:'pack_description',
+		               	panelHeight:'auto',
+		               	editable:false
+	               	},
+	                formatter:function(value,row){
+						return row.pack_description;
+					} 
+           		 }">
+			  	PACK
+			  </th>
 				<th field="batch" width="50" editor="text">BATCH</th>
 				<th field="expiry_date" width="50" editor="text">EXP.DATE</th>
 				<th field="quantity" width="50" editor="text">QTY</th>
@@ -174,10 +208,10 @@
 	</table>
 	</div>
 	<div id="toolbar_dlg">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">New</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">Destroy</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">Save</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">Cancel</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#detail-edg').edatagrid('addRow')">New</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#detail-edg').edatagrid('destroyRow')">Destroy</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#detail-edg').edatagrid('saveRow')">Save</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#detail-edg').edatagrid('cancelRow')">Cancel</a>
 	</div>
 
 	
@@ -226,6 +260,11 @@
 		$('#dlg-form').window('open').window('setTitle','<?php  echo lang('create_purchase')?>');
 	}	
 
+	function reload(){
+		//Create code here
+ 		$('#purchaseDatagrid').datagrid('reload');
+	}	
+
 	function edit(index)
 	{
 		var row = $('#purchaseDatagrid').datagrid('getRows')[index];
@@ -258,7 +297,6 @@
 					$('#form-purchase').form('clear');
 					$('#dlg-form').window('close');	
 					purchaseDetaildg(purchase_master_id);
-					debugger;
 						 /* $('#dlg-purchaseDetail').live('pagehide',function(event) {
 						  	debugger;
 					       $('#purchaseDatagrid').datagrid('reload');
@@ -286,7 +324,7 @@
 
 				$('#dlg-purchaseDetail').dialog('open').dialog('setTitle','Add Purchase description');
 				$(function(){
-					$('#dlg-purchaseDetail #dg').edatagrid({
+					$('#dlg-purchaseDetail #detail-edg').edatagrid({
 						url: "<?=site_url('purchase/admin/purchase/getPurchaseDetailjson')?>/?purchase_master_id="+pmid,
 						saveUrl: "<?=site_url('purchase/admin/purchase/savePurchaseDetail')?>/?purchase_master_id="+pmid ,
 						updateUrl: "<?php echo site_url('purchase/admin/purchase/updatePurchaseDetail')?>/?purchase_master_id="+pmid,

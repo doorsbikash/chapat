@@ -28,10 +28,10 @@ class Purchase extends Admin_Controller
 	{
 		$this->_get_search_param();	
 		$total=$this->purchase_model->count();
-		paging('purchase_master_id');
+		//paging('purchase_master_id');
 		$this->_get_search_param();	
 
-		$rows=$this->purchase_model->getPurchaseMasters(array('p.delete_flag' =>'0'))->result_array();
+		$rows=$this->purchase_model->getPurchaseMasters(array('p.delete_flag' =>'0'),'p.purchase_date asc',array('limit'=>10,'offset'=>0))->result_array();
 		echo json_encode(array('total'=>$total,'rows'=>$rows));
 	}
 
