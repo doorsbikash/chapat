@@ -198,11 +198,44 @@
 			  	PACK
 			  </th>
 				<th field="batch" width="50" editor="text">BATCH</th>
-				<th field="expiry_date" width="50" editor="text">EXP.DATE</th>
+				<th field="expiry_date" width="50" editor="
+					{
+						type:'datebox',
+						options:{
+						required:true,
+						formatter:function(date){
+								var y = date.getFullYear();
+								var m = date.getMonth()+1;
+								var d = date.getDate();
+								return y+'-'+(m<10?('0'+m):m);
+							},
+							parser:function(s){
+								if (!s) return new Date();
+								var ss = s.split('-');
+								var y = parseInt(ss[0],10);
+								var m = parseInt(ss[1],10);
+								var d = parseInt(ss[2],10);
+								if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+									return new Date(y,m-1);
+								} else {
+									return new Date();
+								}
+							}
+						}
+
+					}">EXP.DATE</th>
 				<th field="quantity" width="50" editor="text">QTY</th>
-				<th field="cc_rate" width="50" editor="text">CC/RATE</th>
-				<th field="amount" width="50" editor="numberbox">AMOUNT</th>
-				<th field="mrp" width="50" editor="text">MRP</th>
+				<th field="cc_rate" width="50"  editor="{type:'numberbox',options:{precision:2}}">CC/RATE</th>
+				<th field="amount" width="50" 
+					editor="{
+								type:'numberbox',
+								options:{
+									precision:2,
+									required:true
+						
+								}
+							}">AMOUNT</th>
+				<th field="mrp" width="50"  editor="{type:'numberbox',options:{precision:2}}">MRP</th>
 			</tr>
 		</thead>
 	</table>
@@ -218,6 +251,7 @@
 <!-- ends create form with grid -->
 
 <script type="text/javascript">
+
 	$('#clear').click(function(){
 		$('#purchase-search-form').form('clear');
 		$('#purchaseDatagrid').datagrid({
@@ -325,10 +359,13 @@
 				$('#dlg-purchaseDetail').dialog('open').dialog('setTitle','Add Purchase description');
 				$(function(){
 					$('#dlg-purchaseDetail #detail-edg').edatagrid({
+
 						url: "<?=site_url('purchase/admin/purchase/getPurchaseDetailjson')?>/?purchase_master_id="+pmid,
 						saveUrl: "<?=site_url('purchase/admin/purchase/savePurchaseDetail')?>/?purchase_master_id="+pmid ,
 						updateUrl: "<?php echo site_url('purchase/admin/purchase/updatePurchaseDetail')?>/?purchase_master_id="+pmid,
 						destroyUrl: "<?php echo site_url('purchase/admin/purchase/deletePurchaseDetail')?>/?purchase_master_id="+pmid
+					
+
 					});
 				});
 			}

@@ -65,7 +65,7 @@ class Purchase_model extends MY_Model
     {   
         $this->db->select('*');
         $this->db->from($this->_TABLES['PURCHASE_DETAIL'].' pd');
-      //  // $this->db->where('pd.purchase_master_id',$purchase_master_id);
+     $this->db->where('pd.purchase_master_id',$purchase_master_id);
         $result = $this->db->get();
         return $result;
     }

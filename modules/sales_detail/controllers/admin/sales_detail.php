@@ -1,6 +1,6 @@
 <?php
 
-class Sales_detail extends User_Controller
+class Sales_detail extends Admin_Controller
 {
 	
 	public function __construct(){
@@ -14,7 +14,7 @@ class Sales_detail extends User_Controller
 	{
 		// Display Page
 		$data['header'] = 'sales_detail';
-		$data['page'] = $this->config->item('template_user') . "sales_detail/index";
+		$data['page'] = $this->config->item('template_admin') . "sales_detail/index";
 		$data['module'] = 'sales_detail';
 		$this->load->view($this->_container,$data);		
 	}
