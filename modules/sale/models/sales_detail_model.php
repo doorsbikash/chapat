@@ -1,28 +1,28 @@
 <?php
-class Tbl_sale_model extends MY_Model
+class Sales_detail_model extends MY_Model
 {
 	var $joins=array();
     public function __construct()
     {
     	parent::__construct();
-        $this->prefix='';
-        $this->_TABLES=array('TBL_SALES'=>$this->prefix.'tbl_sales');
+        $this->prefix='tbl_';
+        $this->_TABLES=array('SALES_DETAIL'=>$this->prefix.'sales_detail');
 		$this->_JOINS=array('KEY'=>array('join_type'=>'LEFT','join_field'=>'join1.id=join2.id',
                                            'select'=>'field_names','alias'=>'alias_name'),
                            
                             );        
     }
     
-    public function getTblSales($where=NULL,$order_by=NULL,$limit=array('limit'=>NULL,'offset'=>''))
+    public function getSalesDetails($where=NULL,$order_by=NULL,$limit=array('limit'=>NULL,'offset'=>''))
     {
-       $fields='tbl_sales.*';
+       $fields='sales_details.*';
        
 		foreach($this->joins as $key):
 			$fields=$fields . ','.$this->_JOINS[$key]['select'];
 		endforeach;
                 
         $this->db->select($fields);
-        $this->db->from($this->_TABLES['TBL_SALES']. ' tbl_sales');
+        $this->db->from($this->_TABLES['SALES_DETAIL']. ' sales_details');
 		
 		foreach($this->joins as $key):
                     $this->db->join($this->_TABLES[$key]. ' ' .$this->_JOINS[$key]['alias'],$this->_JOINS[$key]['join_field'],$this->_JOINS[$key]['join_type']);
@@ -41,7 +41,7 @@ class Tbl_sale_model extends MY_Model
     public function count($where=NULL)
     {
 		
-        $this->db->from($this->_TABLES['TBL_SALES'].' tbl_sales');
+        $this->db->from($this->_TABLES['SALES_DETAIL'].' sales_details');
         
         foreach($this->joins as $key):
         $this->db->join($this->_TABLES[$key]. ' ' .$this->_JOINS[$key]['alias'],$this->_JOINS[$key]['join_field'],$this->_JOINS[$key]['join_type']);

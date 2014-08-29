@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2014-08-21 18:35:22
+Date: 2014-08-29 18:34:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -281,7 +281,7 @@ CREATE TABLE `be_users` (
 -- ----------------------------
 -- Records of be_users
 -- ----------------------------
-INSERT INTO `be_users` VALUES ('1', 'admin', 'c40903e9e4834faee347289c2b14ec9c503321dd', 'doors.bikash@gmail.com', '1', '2', null, '2014-08-21 05:56:02', '2014-07-25 23:56:56', null);
+INSERT INTO `be_users` VALUES ('1', 'admin', 'c40903e9e4834faee347289c2b14ec9c503321dd', 'doors.bikash@gmail.com', '1', '2', null, '2014-08-29 10:42:40', '2014-07-25 23:56:56', null);
 INSERT INTO `be_users` VALUES ('4', 'bikash', 'c40903e9e4834faee347289c2b14ec9c503321dd', 'bikash_mi@yonefu.info', '1', '1', null, '2014-07-26 10:59:53', '2014-07-26 03:04:27', null);
 
 -- ----------------------------
@@ -552,7 +552,7 @@ INSERT INTO `tbl_purchase` VALUES ('1', 'CA0940', '2014-08-21', '0', '0', '0', '
 INSERT INTO `tbl_purchase` VALUES ('2', 'CA0938', '2014-08-27', '2696', '75', '2696', 'bik', '4', 'cheque', '1', '2014-08-21 14:35:08', '1', '1', '2014-07-31 00:24:37');
 INSERT INTO `tbl_purchase` VALUES ('3', '45', '2014-08-19', '0', '0', '0', '0', '4', '4545', '1', '2014-08-21 16:03:03', '1', '1', '2014-08-15 10:51:25');
 INSERT INTO `tbl_purchase` VALUES ('4', '45', '2014-08-21', '0', '0', '0', '0', '3', 'cash', '1', '2014-08-21 12:59:56', '1', '1', '2014-08-15 11:39:28');
-INSERT INTO `tbl_purchase` VALUES ('5', '44545', '2014-08-27', '0', '0', '0', '0', '1', 'cash', '1', '2014-08-21 18:11:54', '0', '1', '2014-08-21 12:26:54');
+INSERT INTO `tbl_purchase` VALUES ('5', '44545', '2014-08-27', '0', '0', '0', '0', '1', 'cash', '1', '2014-08-26 18:32:47', '0', '1', '2014-08-26 12:47:47');
 INSERT INTO `tbl_purchase` VALUES ('6', '4545', '2014-08-21', '0', '0', '0', '0', '1', '4545', '1', '2014-08-21 13:11:15', '1', '1', '2014-08-15 11:47:24');
 INSERT INTO `tbl_purchase` VALUES ('7', '454545', '2014-08-06', '0', '0', '0', '0', '3', 'cash', '1', '2014-08-21 16:19:02', '0', '1', '2014-08-21 10:34:02');
 INSERT INTO `tbl_purchase` VALUES ('8', 'asd', '2014-08-02', '0', '0', '0', '0', '1', 'cash', '1', '2014-08-21 17:47:51', '0', '1', '2014-08-21 12:02:51');
@@ -570,7 +570,7 @@ CREATE TABLE `tbl_purchase_detail` (
   `item_description` varchar(255) DEFAULT NULL,
   `pack` int(11) DEFAULT NULL,
   `batch` varchar(50) DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
+  `expiry_date` varchar(100) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `cc_rate` float DEFAULT NULL,
   `amount` float DEFAULT NULL,
@@ -588,54 +588,29 @@ CREATE TABLE `tbl_purchase_detail` (
 -- ----------------------------
 -- Records of tbl_purchase_detail
 -- ----------------------------
-INSERT INTO `tbl_purchase_detail` VALUES ('1', '1', '060029', 'morease sr tab', '4', 'R301064', '2015-01-01', '10', '110.05', '1100.5', '83.1', '2014-07-30 23:05:29', '1', '0', '1', '2014-07-30 23:05:40');
-INSERT INTO `tbl_purchase_detail` VALUES ('2', '2', 'SP0147', 'MAXAGALIN', '3', 'BSN1124', '2016-02-01', '20', '134.78', '2695.6', '97', '2014-07-31 00:27:21', '1', '0', '1', '2014-07-31 00:27:34');
-INSERT INTO `tbl_purchase_detail` VALUES ('3', '7', '1212', '1212', '1', '', '0000-00-00', '0', '0', '0', '0', '2014-08-15 11:58:46', '1', '0', '1', '2014-08-15 11:58:46');
-INSERT INTO `tbl_purchase_detail` VALUES ('4', '7', '4545', '45', '2', '', '0000-00-00', '0', '0', '0', '0', '2014-08-21 18:12:55', '1', '0', '1', '2014-08-15 11:59:11');
-INSERT INTO `tbl_purchase_detail` VALUES ('5', '7', 'BSN676', 'cetamol', '1', 'NHNHYT', '0000-00-00', '4', '40', '160', '30', '2014-08-15 12:00:36', '1', '0', '1', '2014-08-15 12:00:36');
-INSERT INTO `tbl_purchase_detail` VALUES ('12', '7', 'asd', 'asd', '3', 'asd', '0000-00-00', '0', '0', '0', '0', '2014-08-21 18:12:59', '1', '0', '1', '2014-08-15 12:02:54');
-INSERT INTO `tbl_purchase_detail` VALUES ('13', '7', 'BSN676', 'cetamol45', '1', 'NHNHYT', '0000-00-00', '4', '40', '160', '30', '2014-08-15 12:03:04', '1', '0', '1', '2014-08-15 12:03:04');
-INSERT INTO `tbl_purchase_detail` VALUES ('14', '7', '1212', '121245', '1', '', '0000-00-00', '0', '0', '0', '0', '2014-08-15 12:03:48', '1', '0', '1', '2014-08-15 12:03:48');
-INSERT INTO `tbl_purchase_detail` VALUES ('15', '5', '454', 'ceetakjkd', '4', '454', '0000-00-00', '45', '4', '54', '45', '2014-08-21 18:13:01', '1', '0', '1', '2014-08-21 12:26:27');
-INSERT INTO `tbl_purchase_detail` VALUES ('16', '8', 'BNS', 'itestmnekl', '5', '45', '0000-00-00', '5', '5', '5', '5', '2014-08-21 18:13:03', '1', '0', '1', '2014-08-21 10:17:16');
-INSERT INTO `tbl_purchase_detail` VALUES ('17', '8', 'asdf', 'asdfasdf', '2', '', '0000-00-00', '0', '0', '0', '0', '2014-08-21 18:13:05', '1', '0', '1', '2014-08-21 10:17:22');
-INSERT INTO `tbl_purchase_detail` VALUES ('18', '8', 'asdf', 'asdf', '1', 'sdf', '0000-00-00', '0', '0', '0', '0', '2014-08-21 18:13:07', '1', '0', '1', '2014-08-21 10:17:28');
-INSERT INTO `tbl_purchase_detail` VALUES ('19', '9', 'BSN', 'kjldsfg', '2', '45', '0000-00-00', '45', '4', '54', '45', '2014-08-21 18:13:09', '1', '0', '1', '2014-08-21 10:34:38');
-INSERT INTO `tbl_purchase_detail` VALUES ('20', '5', 'bsns', 'test123', '3', '', '0000-00-00', '0', '0', '0', '0', '2014-08-21 18:13:12', '1', '0', '1', '2014-08-21 12:26:22');
+INSERT INTO `tbl_purchase_detail` VALUES ('1', '1', '060029', 'morease sr tab', '4', 'R301064', '', '10', '110.05', '1100.5', '83.1', '2014-07-30 23:05:29', '1', '0', '1', '2014-07-30 23:05:40');
+INSERT INTO `tbl_purchase_detail` VALUES ('2', '2', 'SP0147', 'MAXAGALIN', '3', 'BSN1124', '', '20', '134.78', '2695.6', '97', '2014-07-31 00:27:21', '1', '0', '1', '2014-07-31 00:27:34');
+INSERT INTO `tbl_purchase_detail` VALUES ('3', '7', '1212', '1212', '1', '', '', '0', '0', '0', '0', '2014-08-15 11:58:46', '1', '0', '1', '2014-08-15 11:58:46');
+INSERT INTO `tbl_purchase_detail` VALUES ('4', '7', '4545', '45', '2', '', '', '0', '0', '0', '0', '2014-08-21 18:12:55', '1', '0', '1', '2014-08-15 11:59:11');
+INSERT INTO `tbl_purchase_detail` VALUES ('5', '7', 'BSN676', 'cetamol', '1', 'NHNHYT', '', '4', '40', '160', '30', '2014-08-15 12:00:36', '1', '0', '1', '2014-08-15 12:00:36');
+INSERT INTO `tbl_purchase_detail` VALUES ('12', '7', 'asd', 'asd', '3', 'asd', '', '0', '0', '0', '0', '2014-08-21 18:12:59', '1', '0', '1', '2014-08-15 12:02:54');
+INSERT INTO `tbl_purchase_detail` VALUES ('13', '7', 'BSN676', 'cetamol45', '1', 'NHNHYT', '', '4', '40', '160', '30', '2014-08-15 12:03:04', '1', '0', '1', '2014-08-15 12:03:04');
+INSERT INTO `tbl_purchase_detail` VALUES ('14', '7', '1212', '121245', '1', '', '', '0', '0', '0', '0', '2014-08-15 12:03:48', '1', '0', '1', '2014-08-15 12:03:48');
+INSERT INTO `tbl_purchase_detail` VALUES ('15', '5', '454', 'ceetakjkd', '4', '454', '2014-08', '45', '4', '54', '45', '2014-08-26 18:32:32', '1', '0', '1', '2014-08-26 12:47:32');
+INSERT INTO `tbl_purchase_detail` VALUES ('16', '8', 'BNS', 'itestmnekl', '5', '45', '', '5', '5', '5', '5', '2014-08-21 18:13:03', '1', '0', '1', '2014-08-21 10:17:16');
+INSERT INTO `tbl_purchase_detail` VALUES ('17', '8', 'asdf', 'asdfasdf', '2', '', '', '0', '0', '0', '0', '2014-08-21 18:13:05', '1', '0', '1', '2014-08-21 10:17:22');
+INSERT INTO `tbl_purchase_detail` VALUES ('18', '8', 'asdf', 'asdf', '1', 'sdf', '', '0', '0', '0', '0', '2014-08-21 18:13:07', '1', '0', '1', '2014-08-21 10:17:28');
+INSERT INTO `tbl_purchase_detail` VALUES ('19', '9', 'BSN', 'kjldsfg', '2', '45', '', '45', '4', '54', '45', '2014-08-21 18:13:09', '1', '0', '1', '2014-08-21 10:34:38');
+INSERT INTO `tbl_purchase_detail` VALUES ('20', '5', 'bsns', 'test123', '3', '', '2018-09', '0', '0', '0', '0', '2014-08-26 18:32:41', '1', '0', '1', '2014-08-26 12:47:41');
 
 -- ----------------------------
--- Table structure for `tbl_sales_detail`
+-- Table structure for `tbl_sales`
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_sales_detail`;
-CREATE TABLE `tbl_sales_detail` (
-  `sales_detail_id` int(11) NOT NULL DEFAULT '0',
-  `sales_master_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `price` float DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
-  `created_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` int(11) NOT NULL,
-  `delete_flag` tinyint(1) DEFAULT '0',
-  `modified_by` int(11) DEFAULT NULL,
-  `modified_datetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`sales_detail_id`),
-  KEY `fk_salesdtl_sales_mst_id` (`sales_master_id`),
-  KEY `fk_salesdtl_item_id` (`item_id`),
-  CONSTRAINT `tbl_sales_detail_ibfk_1` FOREIGN KEY (`sales_master_id`) REFERENCES `tbl_sales_master` (`sales_master_id`),
-  CONSTRAINT `tbl_sales_detail_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tbl_sales_detail
--- ----------------------------
-
--- ----------------------------
--- Table structure for `tbl_sales_master`
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_sales_master`;
-CREATE TABLE `tbl_sales_master` (
-  `sales_master_id` int(11) NOT NULL DEFAULT '0',
+DROP TABLE IF EXISTS `tbl_sales`;
+CREATE TABLE `tbl_sales` (
+  `sales_master_id` int(11) NOT NULL AUTO_INCREMENT,
   `sales_date` date DEFAULT NULL,
+  `bill_no` varchar(100) DEFAULT NULL,
   `amount` float DEFAULT NULL,
   `sold_by` varchar(50) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
@@ -644,8 +619,37 @@ CREATE TABLE `tbl_sales_master` (
   `modified_by` int(11) DEFAULT NULL,
   `modified_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`sales_master_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tbl_sales_master
+-- Records of tbl_sales
 -- ----------------------------
+INSERT INTO `tbl_sales` VALUES ('1', '2014-08-29', '0', '0', '', null, null, '0', null, null);
+INSERT INTO `tbl_sales` VALUES ('2', '2014-08-29', '0', '0', '', null, null, '0', null, null);
+INSERT INTO `tbl_sales` VALUES ('3', '2014-08-29', '0', '0', '', null, null, '0', null, null);
+INSERT INTO `tbl_sales` VALUES ('4', '2014-08-29', '0', '0', '', null, null, '0', null, null);
+
+-- ----------------------------
+-- Table structure for `tbl_sales_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_sales_detail`;
+CREATE TABLE `tbl_sales_detail` (
+  `sales_detail_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sales_master_id` int(11) NOT NULL,
+  `item_code` int(11) NOT NULL,
+  `item_description` varchar(255) DEFAULT NULL,
+  `batch` varchar(255) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `created_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `delete_flag` tinyint(1) DEFAULT '0',
+  `modified_by` int(11) DEFAULT NULL,
+  `modified_datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`sales_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tbl_sales_detail
+-- ----------------------------
+INSERT INTO `tbl_sales_detail` VALUES ('1', '4', '0', 'MAXAGALIN', null, '50', null, '2014-08-29 18:32:19', '0', '0', null, null);

@@ -7,7 +7,8 @@
        <!--  <a href="javascript:void(0)" id="menu-system-button" class="easyui-menubutton" menu="#content-menu" iconCls="icon-content">Content</a> -->
         <a href="javascript:void(0)" id="menu-app-master" class="easyui-menubutton" menu="#app-master" iconCls="icon-content">Master</a>
         <a href="<?=site_url('purchase/admin/purchase')?>"  class="easyui-linkbutton" plain="true" id="menu-purchase" iconCls="icon-content">Purchase</a>
-        <a href="#"  class="easyui-linkbutton" plain="true" id="menu-sales" iconCls="icon-content">Sales</a>
+        <a href="<?=site_url('sale/admin/sale' ); ?>"  class="easyui-linkbutton" plain="true" id="menu-sales" iconCls="icon-content">Sales</a>
+        <a href="<?=site_url('report/admin/report' ); ?>"  class="easyui-linkbutton" plain="true" id="menu-sales" iconCls="icon-content">Report</a>
         <!-- <a href="<?=site_url('item/admin/item')?>"  class="easyui-linkbutton" plain="true" id="menu-item-master" iconCls="icon-content">Item Master</a> -->
        <!--  <a href="javascript:void(0)" id="menu-design-button" class="easyui-menubutton" menu="#design-menu" iconCls="icon-content">Design</a>         -->
         <!-- <a href="javascript:void(0)" id="menu-tools-button" class="easyui-menubutton" menu="#plugins-menu" iconCls="icon-extension"><?php echo lang('plugin_menu')?></a>         -->
