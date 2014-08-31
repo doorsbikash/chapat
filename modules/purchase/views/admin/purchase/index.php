@@ -173,7 +173,7 @@
 </form>
 </div>	
 	<div id="dlg-purchaseDetail" class="easyui-dialog"  style="width:730px;min-height:180px;height:auto;padding:0px"
-		data-options="closed:true,onClose:function(){$('#purchaseDatagrid').datagrid('reload');},collapsible:true,modal:true">
+		data-options="closed:true, onClose:function(){$('#purchaseDatagrid').datagrid('reload');},collapsible:true,modal:true">
 		<table id="detail-edg" title="Add/Edit Purchase" style="width:auto;min-height:250px"
 		toolbar="#toolbar_dlg" pagination="true" idField="purchase_detail_id"
 		rownumbers="true" fitColumns="true" singleSelect="true">
@@ -250,8 +250,70 @@
 	
 <!-- ends create form with grid -->
 
+<!-- invoice detail form -->
+<div id="dlg-invoicedetail" class="easyui-dialog" style="width:600px;min-height:180px;height:auto;padding:10px 20px"
+		data-options="closed:true,collapsible:true,buttons:'#dlg-from-buttons',modal:true">
+	<form id="forminvoiceDetail">
+	<table>
+					<tr>
+						<td width="34%" ><label><?=lang('supplier_id')?>:</label>
+						<input id="supplier_id" class="easyui-combobox" style="width:225px" name="supplier_id"
+    						data-options="valueField:'id',
+    									textField:'supplier_name',
+    									url:'<?=site_url("purchase/admin/purchase/supplier_json" );?>'">
+						</td><a href="<?=site_url('supplier/admin/supplier' )?>">Add Supplier</a>
+						
+						<td width="34%" ><label><?=lang('invoice_no')?>:</label>
+							<input name="invoice_no" id="invoice_no" class="easyui-validatebox" required="true">
+						</td>
+						</tr>
+					<tr>
+						<td width="34%" ><label><?=lang('purchase_date')?>:</label>
+						<input name="purchase_date" id="purchase_date" class="easyui-datebox"></td>
+						<td width="34%" ><label><?=lang('memo_type')?>:</label>
+						<select id="memo_type" class="easyui-combobox" name="memo_type">
+									    <option value="cash">Cash</option>
+									    <option value ="cheque">Cheque</option>
+									  
+								</select>
+						
+					</tr>
+	</table>
+
+	<table id="invoicedetaildg" title="Purchases" class="easyui-datagrid" style="width:550px;height:250px"
+        url="<?=site_url('purchase/admin/purchase/getPurchaseDetailjson?purchase_master_id=');?>+purchase_master_id "
+        toolbar="#toolbar"
+        rownumbers="true" fitColumns="true" singleSelect="true">
+    <thead>
+        <tr>
+            <th field="purchase_master_id" width="50">PmasterId</th>
+            <th field="invoice_no" width="50">Invoice No</th>
+            
+        </tr>
+    </thead>
+</table>
+				
+	
+</form>
+</div>	
 <script type="text/javascript">
 
+	function showinvoicedetail(index){
+		var row = $('#purchaseDatagrid').datagrid('getRows')[index];
+		if (row){
+				debugger;
+			$('#dlg-invoicedetail').window('open').window('setTitle','Invoice Detail of : '+row.invoice_no);
+			$('#forminvoiceDetail').form('load',row);
+			
+			
+
+			//purchaseDetaildg(row);	
+		}
+		else
+		{
+			$.messager.alert('Error','<?php  echo lang('edit_selection_error')?>');				
+		}		
+	}	
 	$('#clear').click(function(){
 		$('#purchase-search-form').form('clear');
 		$('#purchaseDatagrid').datagrid({

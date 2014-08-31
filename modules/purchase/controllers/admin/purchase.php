@@ -39,7 +39,11 @@ class Purchase extends Admin_Controller
 		$purchase_master_id = mysql_real_escape_string($_REQUEST['purchase_master_id']);
 		$total=$this->purchase_model->countPurchaseDetail(array('purchase_master_id'=>$purchase_master_id));
 		$rows=$this->purchase_model->getPurchaseDetail($purchase_master_id)->result_array();
-		echo json_encode(array('total'=>$total,'rows'=>$rows));
+		$footer=  array();
+		$footer['name']="Total";
+		$footer['amount']="18.00";
+
+		echo json_encode(array('total'=>$total,'rows'=>$rows,'footer'=>$footer));
 	}
 	
 	public function _get_search_param()
