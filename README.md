@@ -1,6 +1,6 @@
-chapat
+Medshop
 ======
 
-chapat
+Medshop
 
-app trial for chapat 
+app trial for Medshop 
